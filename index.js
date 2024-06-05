@@ -6,6 +6,8 @@ const routeClient = require("./routes/client/index.route");
 const app = express(); // Khởi tạo ứng dụng web sử dụng express
 const port = process.env.PORT; // Cổng của website
 
+app.use(express.static('public'));
+
 app.set("views", "./views");
 app.set("view engine", "pug");
 
