@@ -1,8 +1,10 @@
-const express = require('express') // Nhúng express vào dự án
-const app = express() // Khởi tạo ứng dụng web sử dụng express
-const port = 3000 // Cổng của website
+const express = require('express'); // Nhúng express vào dự án
+require('dotenv').config();
 
 const routeClient = require("./routes/client/index.route");
+
+const app = express(); // Khởi tạo ứng dụng web sử dụng express
+const port = process.env.PORT; // Cổng của website
 
 app.set("views", "./views");
 app.set("view engine", "pug");
