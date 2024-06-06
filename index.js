@@ -1,5 +1,6 @@
 const express = require('express'); // Nhúng express vào dự án
 require('dotenv').config();
+
 const database = require("./config/database");
 database.connect();
 
