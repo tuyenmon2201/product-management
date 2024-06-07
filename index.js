@@ -6,6 +6,7 @@ database.connect();
 
 const routeAdmin = require("./routes/admin/index.route");
 const routeClient = require("./routes/client/index.route");
+const systemConfig = require("./config/system");
 
 const app = express(); // Khởi tạo ứng dụng web sử dụng express
 const port = process.env.PORT; // Cổng của website
@@ -14,6 +15,8 @@ app.use(express.static('public'));
 
 app.set("views", "./views");
 app.set("view engine", "pug");
+
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 routeAdmin.index(app);
 routeClient.index(app);
