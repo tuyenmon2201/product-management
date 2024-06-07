@@ -4,7 +4,7 @@ require('dotenv').config();
 const database = require("./config/database");
 database.connect();
 
-
+const routeAdmin = require("./routes/admin/index.route");
 const routeClient = require("./routes/client/index.route");
 
 const app = express(); // Khởi tạo ứng dụng web sử dụng express
@@ -15,6 +15,7 @@ app.use(express.static('public'));
 app.set("views", "./views");
 app.set("view engine", "pug");
 
+routeAdmin.index(app);
 routeClient.index(app);
 
 // app.get("/", (req, res) => {
