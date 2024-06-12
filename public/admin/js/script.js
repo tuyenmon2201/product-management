@@ -25,3 +25,23 @@ if(listButtonStatus.length > 0){
     buttonCurrent.classList.add("active");
 }
 // End Button Status
+
+//Form Search
+const formSearch = document.querySelector("[form-search]");
+if(formSearch){
+    let url = new URL(window.location.href);
+    formSearch.addEventListener("submit", (event) => {
+        event.preventDefault();
+        // console.log("Chay vao day");
+        // console.log(event.target.elements.keyword.value);
+        const keyword = event.target.elements.keyword.value;
+        if(keyword){
+            url.searchParams.set("keyword", keyword);
+        }
+        else{
+            url.searchParams.delete("keyword");
+        }
+        window.location.href = url.href;
+    });
+}
+//End Form Search
