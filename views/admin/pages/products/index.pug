@@ -45,20 +45,20 @@ block main
                             td
                                 button(class="btn btn-warning btn-sm") Sửa
                                 button(class="btn btn-danger btn-sm ml-1") Xóa
+    nav
+        ul(class="pagination")
+            //- li(class="page-item")
+            //-     button(class="page-link") Trang trước
+            
+            - for (var i = 1; i <= pagination.totalPage; i++)
+                li(class="page-item")
+                button(class="page-link") #{i}
+            //- li(class="page-item")
+            //-     button(class="page-link") 1
+            //- li(class="page-item")
+            //-     button(class="page-link") 2
+            //- li(class="page-item")
+            //-     button(class="page-link") 3
 
-            //- tr 
-            //-     td 2
-            //-     td
-            //-         img(
-            //-             src="https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/thumbnail.png"
-            //-             alt="Sản phẩm 2"
-            //-             width="80px"
-            //-             height="auto"
-            //-         )
-            //-     td Sản phẩm 2
-            //-     td 150$
-            //-     td
-            //-         a(href="#" class="badge badge-danger") Dừng hoạt động
-            //-     td
-            //-         button(class="btn btn-warning btn-sm") Sửa
-            //-         button(class="btn btn-danger btn-sm ml-1") Xóa
+            //- li(class="page-item")
+            //-     button(class="page-link") Kế tiếp

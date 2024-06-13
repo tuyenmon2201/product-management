@@ -33,14 +33,38 @@ module.exports.index = async (req, res) => {
     }
     //End Tim kiem
 
-    const products = await Product.find(find);
+    //Phan trang
+    const pagination = {
+        currentPage: 1,
+        limitItem: 4
+    };
 
-    console.log(products);
+    if(req.query.page){
+        pagination.currentPage = parseInt(req.query.page);
+    }
+
+    pagination.skip = (pagination.currentPage - 1) * pagination.limitItem;
+    const countProducts = await Product.countDocuments(find);
+    const totalPage = Math.ceil(countProducts / pagination.limitItem);
+    // console.log(totalPage);
+    pagination.totalPage = totalPage;
+    console.log(pagination);
+    //End phan trang
+
+    const products = await Product
+        .find(find)
+        .limit(pagination.limitItem)
+        .skip(pagination.skip)
+
+    // const products = await Product.find(find);
+
+    // console.log(products);
 
     res.render("admin/pages/products/index", {
         pageTitle: "Trang quản lí sản phẩm",
         products: products,
         keyword: keyword,
-        filterStatus: filterStatus
+        filterStatus: filterStatus,
+        pagination: pagination
     });
 }
