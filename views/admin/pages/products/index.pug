@@ -1,16 +1,19 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+
 block main
     h1(class="mb-4") Quản lý sản phẩm
 
     .card.mb-3
         .card-header Bộ lọc và Tìm kiếm
         .card-body
-            .col-6
-                +filter-status(filterStatus)
-            .col-6 
-                +search(keyword)
+            .row
+                .col-6
+                    +filter-status(filterStatus)
+                .col-6 
+                    +search(keyword)
     .card.mb-3
         .card-header Danh sách
         .card-body
@@ -45,25 +48,4 @@ block main
                             td
                                 button(class="btn btn-warning btn-sm") Sửa
                                 button(class="btn btn-danger btn-sm ml-1") Xóa
-    nav
-        ul(class="pagination")
-            if(pagination.currentPage > 1)
-                li(class="page-item")
-                    button(
-                        class="page-link"
-                        button-pagination=pagination.currentPage - 1
-                    ) Trang trước
-            
-            - for (var i = 1; i <= pagination.totalPage; i++)
-                li(class=("page-item " + (pagination.currentPage == i ? "active" : "")))
-                    button(
-                        class="page-link"
-                        button-pagination=i
-                    ) #{i}
-
-            if(pagination.currentPage < pagination.totalPage)
-                li(class="page-item")
-                    button(
-                        class="page-link"
-                        button-pagination=pagination.currentPage + 1
-                    ) Kế tiếp
+    +pagination(pagination)
