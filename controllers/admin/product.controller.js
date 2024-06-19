@@ -64,5 +64,7 @@ module.exports.changeStatus = async (req, res) => {
     }, {
         status: statusChange
     });
-    res.redirect('back');
+    res.json({
+        code: 200,
+    });
 }
