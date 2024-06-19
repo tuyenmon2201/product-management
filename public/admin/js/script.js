@@ -77,7 +77,7 @@ if (listButtonChangeStatus.length > 0) {
                 .then(res => res.json())
                 .then(data => {
                     if (data.code == 200) {
-                        window.location.reload;
+                        window.location.reload();
                     }
                 })
             // console.log(button);
@@ -113,3 +113,46 @@ if (inputCheckAll) {
     });
 }
 // End Check Item
+
+// Box Actions
+const boxActions = document.querySelector("[box-actions]");
+if (boxActions) {
+    const button = boxActions.querySelector("button");
+    button.addEventListener("click", () => {
+        const select = boxActions.querySelector("select");
+        const status = select.value;
+        const listInputCheckItemChecked = document.querySelectorAll("input[name='checkItem']:checked");
+
+        const ids = [];
+        listInputCheckItemChecked.forEach(input => {
+            ids.push(input.value);
+        });
+
+        if (status != "" && ids.length > 0) {
+            const data = {
+                status: status,
+                ids: ids
+            };
+
+            fetch("/admin/products/change-multi", {
+                method: "PATCH", // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(data), // body data type must match "Content-Type" header
+            })
+                .then(res => res.json)
+                .then(data => {
+                    if(data.code == 200){
+                        window.location.reload();
+                    }
+                })
+        }
+        else {
+            alert("Vui long chon checkItem va hanh dong");
+        }
+
+    });
+}
+// End Box Actions

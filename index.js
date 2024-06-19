@@ -1,5 +1,6 @@
 const express = require('express'); // Nhúng express vào dự án
 require('dotenv').config();
+const bodyParser = require('body-parser');
 
 const database = require("./config/database");
 database.connect();
@@ -10,6 +11,9 @@ const systemConfig = require("./config/system");
 
 const app = express(); // Khởi tạo ứng dụng web sử dụng express
 const port = process.env.PORT; // Cổng của website
+
+// parser application/json
+app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
