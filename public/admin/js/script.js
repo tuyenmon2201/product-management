@@ -1,14 +1,14 @@
 // Button Status
 const listButtonStatus = document.querySelectorAll("[button-status]");
-if(listButtonStatus.length > 0){
+if (listButtonStatus.length > 0) {
     let url = new URL(window.location.href);
     listButtonStatus.forEach(button => {
         button.addEventListener("click", () => {
             const status = button.getAttribute("button-status");
-            if(status){
+            if (status) {
                 url.searchParams.set("status", status);
             }
-            else{
+            else {
                 url.searchParams.delete("status");
             }
             // console.log(status);
@@ -28,17 +28,17 @@ if(listButtonStatus.length > 0){
 
 //Form Search
 const formSearch = document.querySelector("[form-search]");
-if(formSearch){
+if (formSearch) {
     let url = new URL(window.location.href);
     formSearch.addEventListener("submit", (event) => {
         event.preventDefault();
         // console.log("Chay vao day");
         // console.log(event.target.elements.keyword.value);
         const keyword = event.target.elements.keyword.value;
-        if(keyword){
+        if (keyword) {
             url.searchParams.set("keyword", keyword);
         }
-        else{
+        else {
             url.searchParams.delete("keyword");
         }
         window.location.href = url.href;
@@ -48,7 +48,7 @@ if(formSearch){
 
 //Pagination
 const listButtonPagination = document.querySelectorAll("[button-pagination]");
-if(listButtonPagination.length > 0){
+if (listButtonPagination.length > 0) {
     let url = new URL(window.location.href);
     listButtonPagination.forEach(button => {
         button.addEventListener("click", () => {
@@ -63,7 +63,7 @@ if(listButtonPagination.length > 0){
 
 // Button Change Status
 const listButtonChangeStatus = document.querySelectorAll("[button-change-status]");
-if(listButtonChangeStatus.length > 0){
+if (listButtonChangeStatus.length > 0) {
     listButtonChangeStatus.forEach(button => {
         button.addEventListener("click", () => {
             const link = button.getAttribute("link");
@@ -76,7 +76,7 @@ if(listButtonChangeStatus.length > 0){
             })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.code == 200){
+                    if (data.code == 200) {
                         window.location.reload;
                     }
                 })
@@ -86,3 +86,30 @@ if(listButtonChangeStatus.length > 0){
 }
 
 // End Button Change Status
+
+// Check Item
+const inputCheckAll = document.querySelector("input[name='checkAll']");
+// console.log(inputCheckAll);
+if (inputCheckAll) {
+    // Bat su kien click vao nut checkAll 
+    const listInputCheckItem = document.querySelectorAll("input[name='checkItem']");
+    inputCheckAll.addEventListener("click", () => {
+        listInputCheckItem.forEach(inputCheckItem => {
+            inputCheckItem.checked = inputCheckAll.checked;
+        });
+    });
+
+    // Bat su kien click vao nut checkItem
+    listInputCheckItem.forEach(inputCheckItem => {
+        inputCheckItem.addEventListener("click", () => {
+            const listInputCheckItemChecked = document.querySelectorAll("input[name='checkItem']:checked");
+            if (listInputCheckItem.length == listInputCheckItemChecked.length) {
+                inputCheckAll.checked = true;
+            }
+            else {
+                inputCheckAll.checked = false;
+            }
+        });
+    });
+}
+// End Check Item
