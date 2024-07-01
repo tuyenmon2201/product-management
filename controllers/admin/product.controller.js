@@ -155,7 +155,7 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
     else{
-        const countProducts = Product.countDocuments({});
+        const countProducts = await Product.countDocuments({});
         req.body.position = countProducts + 1;
     }
 
