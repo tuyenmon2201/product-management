@@ -43,6 +43,9 @@ module.exports.index = async (req, res) => {
         .find(find)
         .limit(pagination.limitItem)
         .skip(pagination.skip)
+        .sort({
+            position: "desc"
+        })
 
     // const products = await Product.find(find);
 
@@ -110,6 +113,21 @@ module.exports.deleteItem = async (req, res) => {
         _id: id
     }, {
         deleted: true
+    });
+
+    res.json({
+        code: 200,
+    });
+}
+
+module.exports.changePosition = async (req, res) => {
+    const id = req.params.id;
+    const position = req.body.position;
+
+    await Product.updateOne({
+        _id: id
+    }, {
+        position: position
     });
 
     res.json({

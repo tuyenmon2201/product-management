@@ -168,7 +168,7 @@ if(listButtonDelete.length > 0){
             // console.log(id);
 
             fetch(link, {
-                method: "PATCH"
+                method: "PATCH",
             })
                 .then(res => res.json())
                 .then(data => {
@@ -180,3 +180,31 @@ if(listButtonDelete.length > 0){
     });
 }
 // End delete record
+
+// Change position
+const listInputPosition = document.querySelectorAll("input[name=position]");
+if(listInputPosition.length > 0){
+    listInputPosition.forEach(input => {
+        input.addEventListener("change", () => {
+            const link = input.getAttribute("link");
+            const position = parseInt(input.value);
+            console.log(position);
+            console.log(link);
+            fetch(link, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({
+                    position: position
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                })
+        });
+    });
+}
+// End change position
