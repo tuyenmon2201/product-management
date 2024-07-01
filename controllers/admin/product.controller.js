@@ -117,6 +117,8 @@ module.exports.deleteItem = async (req, res) => {
         deleted: true
     });
 
+    req.flash('success', 'Delete item success');
+
     res.json({
         code: 200,
     });
