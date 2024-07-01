@@ -68,6 +68,8 @@ module.exports.changeStatus = async (req, res) => {
     }, {
         status: statusChange
     });
+
+    req.flash('success', 'Status update success');
     res.json({
         code: 200,
     });
