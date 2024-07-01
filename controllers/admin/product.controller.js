@@ -1,6 +1,7 @@
 const Product = require("../../models/product.model");
 const paginationHelper = require("../../helpers/pagination.helper");
 const { trusted } = require("mongoose");
+const systemConfig = require("../../config/system")
 
 module.exports.index = async (req, res) => {
     const find = {
@@ -137,4 +138,29 @@ module.exports.changePosition = async (req, res) => {
     res.json({
         code: 200,
     });
+}
+
+module.exports.create = async (req, res) => {
+
+    res.render("admin/pages/products/create", {
+        pageTitle: "Trang thêm mới sản phẩm",
+    });
+}
+
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+    req.body.stock = parseInt(req.body.stock);
+    if(req.body.position){
+        req.body.position = parseInt(req.body.position);
+    }
+    else{
+        const countProducts = Product.countDocuments({});
+        req.body.position = countProducts + 1;
+    }
+
+    const newProduct = new Product(req.body);
+    await newProduct.save();
+
+    res.redirect(`/${systemConfig.prefixAdmin}/products`);
 }

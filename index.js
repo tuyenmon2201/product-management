@@ -21,6 +21,9 @@ app.use(session({ cookie: { maxAge: 60000 } }));
 app.use(flash());
 // End flash
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
 // parser application/json
 app.use(bodyParser.json());
 
