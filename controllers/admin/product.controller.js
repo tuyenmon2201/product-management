@@ -148,6 +148,9 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+    if(req.file && req.file.filename){
+        req.body.thumnail = `/uploads/${req.file.filename}`;
+    }
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
