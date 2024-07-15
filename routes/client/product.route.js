@@ -4,6 +4,8 @@ const controller = require("../../controllers/client/product.controller")
 
 router.get("/", controller.index);
 
+router.get("/:slug", controller.detail);
+
 // router.post("/create", (req, res) => {
 //     res.render("client/pages/products/create");
 // });
