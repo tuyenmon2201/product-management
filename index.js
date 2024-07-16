@@ -31,9 +31,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parser application/json
 app.use(bodyParser.json());
 
-app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
