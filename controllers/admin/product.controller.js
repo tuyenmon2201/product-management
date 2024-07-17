@@ -40,13 +40,21 @@ module.exports.index = async (req, res) => {
     const pagination = await paginationHelper(req, find);
     //End phan trang
 
+    // Sap xep
+    const sort = {};
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue;
+    }
+    else{
+        sort.position = "desc";
+    }
+    // End sap xep
+
     const products = await Product
         .find(find)
         .limit(pagination.limitItem)
         .skip(pagination.skip)
-        .sort({
-            position: "desc"
-        })
+        .sort(sort);
 
     // const products = await Product.find(find);
 
