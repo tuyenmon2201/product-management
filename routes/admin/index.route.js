@@ -1,5 +1,6 @@
 const dashboardRoute = require("./dashboard.route");
 const productRoute = require("./product.route");
+const productCategoryRoute = require("./product-category.route");
 const systemConfig = require("../../config/system");
 
 module.exports.index = (app) => {
@@ -7,5 +8,6 @@ module.exports.index = (app) => {
 
     app.use(`${path}/dashboard`, dashboardRoute);
     app.use(`${path}/products`, productRoute);
+    app.use(`${path}/products-category`, productCategoryRoute);
 
 }
