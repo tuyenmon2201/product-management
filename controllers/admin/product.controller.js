@@ -196,9 +196,16 @@ module.exports.edit = async (req, res) => {
         // console.log(product);
 
         if(product){
+            const categories = await ProductCategory.find({
+                deleted: false
+            });
+        
+            const newCategories = createTreeHelper(categories);
+    
             res.render("admin/pages/products/edit", {
                 pageTitle: "Chỉnh sửa sản phẩm",
-                product: product
+                product: product,
+                categories: newCategories
             });
         }
         else{
