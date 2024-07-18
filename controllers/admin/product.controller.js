@@ -1,7 +1,9 @@
 const Product = require("../../models/product.model");
 const paginationHelper = require("../../helpers/pagination.helper");
 const { trusted } = require("mongoose");
-const systemConfig = require("../../config/system")
+const systemConfig = require("../../config/system");
+const createTreeHelper = require("../../helpers/createTree.helper");
+const ProductCategory = require("../../models/product-category.model");
 
 module.exports.index = async (req, res) => {
     const find = {
@@ -150,8 +152,15 @@ module.exports.changePosition = async (req, res) => {
 
 module.exports.create = async (req, res) => {
 
+    const categories = await ProductCategory.find({
+        deleted: false
+    });
+
+    const newCategories = createTreeHelper(categories);
+
     res.render("admin/pages/products/create", {
         pageTitle: "Trang thêm mới sản phẩm",
+        categories: newCategories
     });
 }
 
