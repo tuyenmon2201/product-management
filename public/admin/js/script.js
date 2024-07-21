@@ -1,3 +1,4 @@
+
 // Button Status
 const listButtonStatus = document.querySelectorAll("[button-status]");
 if (listButtonStatus.length > 0) {
@@ -146,7 +147,7 @@ if (boxActions) {
             })
                 .then(res => res.json)
                 .then(data => {
-                    if(data.code == 200){
+                    if (data.code == 200) {
                         window.location.reload();
                     }
                 })
@@ -161,9 +162,9 @@ if (boxActions) {
 
 // Delete record
 const listButtonDelete = document.querySelectorAll("[button-delete]");
-if(listButtonDelete.length > 0){
+if (listButtonDelete.length > 0) {
     listButtonDelete.forEach(button => {
-        button.addEventListener("click", () =>{
+        button.addEventListener("click", () => {
             const link = button.getAttribute("button-delete");
             // console.log(id);
 
@@ -172,7 +173,7 @@ if(listButtonDelete.length > 0){
             })
                 .then(res => res.json())
                 .then(data => {
-                    if(data.code == 200){
+                    if (data.code == 200) {
                         window.location.reload();
                     }
                 })
@@ -183,7 +184,7 @@ if(listButtonDelete.length > 0){
 
 // Change position
 const listInputPosition = document.querySelectorAll("input[name=position]");
-if(listInputPosition.length > 0){
+if (listInputPosition.length > 0) {
     listInputPosition.forEach(input => {
         input.addEventListener("change", () => {
             const link = input.getAttribute("link");
@@ -211,10 +212,10 @@ if(listInputPosition.length > 0){
 
 // Show alert
 const showAlert = document.querySelector("[show-alert]");
-if(showAlert){
+if (showAlert) {
     let time = showAlert.getAttribute("show-alert") || 3000;
     time = parseInt(time);
-    
+
     setTimeout(() => {
         showAlert.classList.add("hidden");
     }, 3000);
@@ -223,13 +224,13 @@ if(showAlert){
 
 // Upload image
 const uploadImage = document.querySelector("[upload-image]");
-if(uploadImage){
+if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]");
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]");
 
     uploadImageInput.addEventListener("change", () => {
         const file = uploadImageInput.files[0];
-        if(file){
+        if (file) {
             uploadImagePreview.src = URL.createObjectURL(file);
         }
     });
@@ -238,17 +239,17 @@ if(uploadImage){
 
 // Sort
 const sort = document.querySelector("[sort]");
-if(sort){
+if (sort) {
 
     let url = new URL(window.location.href);
 
     const select = sort.querySelector("[sort-select]");
     select.addEventListener("change", () => {
         const [sortKey, sortValue] = select.value.split("-");
-        if(sortKey && sortValue){
+        if (sortKey && sortValue) {
             url.searchParams.set("sortKey", sortKey);
             url.searchParams.set("sortValue", sortValue);
-    
+
             window.location.href = url.href;
         }
     });
@@ -257,7 +258,7 @@ if(sort){
     const defaultSortKey = url.searchParams.get("sortKey");
     const defaultSortValue = url.searchParams.get("sortValue");
 
-    if(defaultSortKey && defaultSortValue){
+    if (defaultSortKey && defaultSortValue) {
         const optionSelected = select.querySelector(`option[value="${defaultSortKey}-${defaultSortValue}"]`);
         optionSelected.selected = true;
         // optionSelected.setAttribute("selected", true);
@@ -265,7 +266,7 @@ if(sort){
 
     // Feature clear
     const buttonClear = sort.querySelector("[sort-clear]");
-    if(buttonClear){
+    if (buttonClear) {
         buttonClear.addEventListener("click", () => {
             url.searchParams.delete("sortKey");
             url.searchParams.delete("sortValue");
@@ -275,3 +276,51 @@ if(sort){
     }
 }
 // End sort
+
+// Permission
+const tablePermission = document.querySelector("[table-permissions]");
+if (tablePermission) {
+    const buttonSubmit = document.querySelector("[button-submit]");
+    buttonSubmit.addEventListener("click", () => {
+        const roles = [];
+        const listElementRoleId = tablePermission.querySelectorAll("[role-id]");
+        for (const element of listElementRoleId) {
+            const roleId = element.getAttribute("role-id");
+            const role = {
+                id: roleId,
+                permission: []
+            };
+
+            const listInputChecked = tablePermission.querySelectorAll(`input[data-id="${roleId}"]:checked`);
+            listInputChecked.forEach(input => {
+                const dataName = input.getAttribute("data-name");
+                role.permission.push(dataName);
+            });
+
+            roles.push(role);
+        }
+
+        const path = buttonSubmit.getAttribute("button-submit");
+        fetch(path, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: JSON.stringify(roles)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code == 200) {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+    });
+}
+// End permission

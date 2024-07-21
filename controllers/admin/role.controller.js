@@ -10,13 +10,13 @@ module.exports.index = async (req, res) => {
         pageTitle: "Nhóm quyền",
         records: records
     });
-}
+};
 
 module.exports.create = async (req, res) => {
     res.render("admin/pages/roles/create", {
         pageTitle: "Tạo mới nhóm quyền"
     });
-}
+};
 
 module.exports.createPost = async (req, res) => {
     const record = new Role(req.body);
@@ -25,7 +25,7 @@ module.exports.createPost = async (req, res) => {
     req.flash("success", "Thêm mới nhóm quyền thành công");
 
     res.redirect(`/${systemConfig.prefixAdmin}/roles`);
-}
+};
 
 module.exports.edit = async (req, res) => {
     try {
@@ -41,9 +41,9 @@ module.exports.edit = async (req, res) => {
             record: record
         });
     } catch (error) {
-        res.redirect(`/${systemConfig.prefixAdmin}/roles`); 
+        res.redirect(`/${systemConfig.prefixAdmin}/roles`);
     }
-}
+};
 
 module.exports.editPatch = async (req, res) => {
     try {
@@ -59,6 +59,35 @@ module.exports.editPatch = async (req, res) => {
         res.redirect("back");
     } catch (error) {
         req.flash("success", "Cập nhật thất bại!");
-        res.redirect(`/${systemConfig.prefixAdmin}/roles`); 
+        res.redirect(`/${systemConfig.prefixAdmin}/roles`);
     }
-}
+};
+
+module.exports.permissions = async (req, res) => {
+    const records = await Role.find({
+        deleted: false
+    });
+
+    res.render("admin/pages/roles/permissions", {
+        pageTitle: "Phân quyền",
+        records: records
+    });
+};
+
+module.exports.permissionsPatch = async (req, res) => {
+    const roles = req.body;
+
+    for (const role of roles) {
+        await Role.updateOne({
+            _id: role.id,
+            deleted: false
+        }, {
+            permission: role.permission
+        });
+    }
+    
+    res.json({
+        code: 200,
+        message: "Cập nhật thành công!"
+    });
+};
