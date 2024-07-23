@@ -72,82 +72,104 @@ module.exports.index = async (req, res) => {
 }
 
 module.exports.changeStatus = async (req, res) => {
-    const { id, statusChange } = req.params;
-    // console.log(req.params);
-    await Product.updateOne({
-        _id: id
-    }, {
-        status: statusChange
-    });
+    if(res.locals.role.permission.includes("products_edit")){
+        const { id, statusChange } = req.params;
+        // console.log(req.params);
+        await Product.updateOne({
+            _id: id
+        }, {
+            status: statusChange
+        });
 
-    req.flash('success', 'Status update success');
-    res.json({
-        code: 200,
-    });
+        req.flash('success', 'Status update success');
+        res.json({
+            code: 200,
+        });
+    }
+    else{
+        res.send(`403`);
+    }
 }
 
 module.exports.changeMulti = async (req, res) => {
-    const { status, ids } = req.body;
+    if(res.locals.role.permission.includes("products_edit")){
+        const { status, ids } = req.body;
 
-    // await Product.updateMany({
-    //     _id: ids
-    // }, {
-    //     status: status
-    // });
+        // await Product.updateMany({
+        //     _id: ids
+        // }, {
+        //     status: status
+        // });
 
-    switch (status) {
-        case "active":
-        case "inactive":
-            await Product.updateMany({
-                _id: ids
-            }, {
-                status: status
-            });
-        case "delete":
-            await Product.updateMany({
-                _id: ids
-            }, {
-                deleted: true
-            });
-            break;
-        default:
-            break;
+        switch (status) {
+            case "active":
+            case "inactive":
+                await Product.updateMany({
+                    _id: ids
+                }, {
+                    status: status
+                });
+            case "delete":
+                await Product.updateMany({
+                    _id: ids
+                }, {
+                    deleted: true
+                });
+                break;
+            default:
+                break;
+        }
+
+        res.json({
+            code: 200,
+        });
     }
-
-    res.json({
-        code: 200,
-    });
+    else{
+        res.send(`403`);
+    }
+    
 }
 
 module.exports.deleteItem = async (req, res) => {
-    const id = req.params.id;
+    if(res.locals.role.permission.includes("products_delete")){
+        const id = req.params.id;
 
-    await Product.updateOne({
-        _id: id
-    }, {
-        deleted: true
-    });
+        await Product.updateOne({
+            _id: id
+        }, {
+            deleted: true
+        });
 
-    req.flash('success', 'Delete item success');
+        req.flash('success', 'Delete item success');
 
-    res.json({
-        code: 200,
-    });
+        res.json({
+            code: 200,
+        });
+    }
+    else{
+        res.send(`403`);
+    }
 }
 
 module.exports.changePosition = async (req, res) => {
-    const id = req.params.id;
-    const position = req.body.position;
+    if(res.locals.role.permission.includes("products_edit")){
+        const id = req.params.id;
+        const position = req.body.position;
 
-    await Product.updateOne({
-        _id: id
-    }, {
-        position: position
-    });
+        await Product.updateOne({
+            _id: id
+        }, {
+            position: position
+        });
 
-    res.json({
-        code: 200,
-    });
+        res.json({
+            code: 200,
+        });
+    }
+    else{
+        res.send(`403`);
+    }
+    
 }
 
 module.exports.create = async (req, res) => {
@@ -165,22 +187,26 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+    if(res.locals.role.permission.includes("products_create")){
+        req.body.price = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.stock = parseInt(req.body.stock);
+        if (req.body.position) {
+            req.body.position = parseInt(req.body.position);
+        }
+        else {
+            const countProducts = await Product.countDocuments({});
+            req.body.position = countProducts + 1;
+        }
 
-    req.body.price = parseInt(req.body.price);
-    req.body.discountPercentage = parseInt(req.body.discountPercentage);
-    req.body.stock = parseInt(req.body.stock);
-    if (req.body.position) {
-        req.body.position = parseInt(req.body.position);
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+
+        res.redirect(`/${systemConfig.prefixAdmin}/products`);
     }
-    else {
-        const countProducts = await Product.countDocuments({});
-        req.body.position = countProducts + 1;
+    else{
+        res.send(`403`);
     }
-
-    const newProduct = new Product(req.body);
-    await newProduct.save();
-
-    res.redirect(`/${systemConfig.prefixAdmin}/products`);
 }
 
 module.exports.edit = async (req, res) => {
@@ -219,31 +245,35 @@ module.exports.edit = async (req, res) => {
 
 // PATCH /edit/:id
 module.exports.editPatch = async (req, res) => {
-
-    try {
-        const id = req.params.id;
-        req.body.price = parseInt(req.body.price);
-        req.body.discountPercentage = parseInt(req.body.discountPercentage);
-        req.body.stock = parseInt(req.body.stock);
-        if (req.body.position) {
-            req.body.position = parseInt(req.body.position);
+    if(res.locals.role.permission.includes("products_edit")){
+        try {
+            const id = req.params.id;
+            req.body.price = parseInt(req.body.price);
+            req.body.discountPercentage = parseInt(req.body.discountPercentage);
+            req.body.stock = parseInt(req.body.stock);
+            if (req.body.position) {
+                req.body.position = parseInt(req.body.position);
+            }
+            else {
+                const countProducts = await Product.countDocuments({});
+                req.body.position = countProducts + 1;
+            }
+    
+            await Product.updateOne({
+                _id: id,
+                deleted: false
+            }, req.body);
+    
+            req.flash("success", "Cap nhat san pham thanh cong!");
+        } catch (error) {
+            req.flash("error", "Id san pham khong hop le!");
         }
-        else {
-            const countProducts = await Product.countDocuments({});
-            req.body.position = countProducts + 1;
-        }
-
-        await Product.updateOne({
-            _id: id,
-            deleted: false
-        }, req.body);
-
-        req.flash("success", "Cap nhat san pham thanh cong!");
-    } catch (error) {
-        req.flash("error", "Id san pham khong hop le!");
+    
+        res.redirect("back");
     }
-
-    res.redirect("back");
+    else{
+        res.send(`403`);
+    }
 }
 
 module.exports.detail = async (req, res) => {
