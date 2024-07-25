@@ -65,10 +65,11 @@ block main
                             th Hình ảnh
                             th Tiêu đề
                             th Giá
-                            if(role.permission.includes("products_position"))
+                            if(role.permission.includes("products_edit"))
                                 th Vị trí
-                            if(role.permission.includes("products_status"))
+                            if(role.permission.includes("products_edit"))
                                 th Trạng thái
+                            th Tạo bởi
                             th Hành động
 
                     tbody
@@ -91,7 +92,7 @@ block main
                                 td #{item.title}
                                 td #{item.price}$
                                 td
-                                    if(role.permission.includes("products_position"))
+                                    if(role.permission.includes("products_edit"))
                                         input(
                                             link=`/${prefixAdmin}/products/change-position/${item.id}`
                                             type="number"
@@ -101,8 +102,7 @@ block main
                                             min="1"
                                         )
                                 td
-                                td
-                                    if(role.permission.includes("products_status"))
+                                    if(role.permission.includes("products_edit"))
                                         if(item.status == "active")
                                             a(
                                                 link=`/${prefixAdmin}/products/change-status/inactive/${item.id}` 
@@ -114,7 +114,11 @@ block main
                                                 link=`/${prefixAdmin}/products/change-status/active/${item.id}`
                                                 class="badge badge-danger"
                                                 button-change-status
-                                            ) Dừng hoạt động 
+                                            ) Dừng hoạt động
+
+                                td
+                                    div #{item.createdByFullName}
+                                    div #{item.createdAtFormat}
                                 td
                                     a(class="btn btn-info btn-sm" href=`/${prefixAdmin}/products/detail/${item.id}`) Chi tiết
                                     if(role.permission.includes("products_edit"))

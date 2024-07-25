@@ -1,9 +1,11 @@
 const Product = require("../../models/product.model");
+const Account = require("../../models/account.model");
 const paginationHelper = require("../../helpers/pagination.helper");
 const { trusted } = require("mongoose");
 const systemConfig = require("../../config/system");
 const createTreeHelper = require("../../helpers/createTree.helper");
 const ProductCategory = require("../../models/product-category.model");
+const moment = require('moment');
 
 module.exports.index = async (req, res) => {
     const find = {
@@ -57,6 +59,20 @@ module.exports.index = async (req, res) => {
         .limit(pagination.limitItem)
         .skip(pagination.skip)
         .sort(sort);
+
+    for (const item of products) {
+        if(item.createdBy){
+            const accountCreated = await Account.findOne({
+                _id: item.createdBy
+            });
+            item.createdByFullName = accountCreated.fullName;
+        }
+        else{
+            item.createdByFullName = "";
+        }
+
+        item.createdAtFormat = moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss");
+    }
 
     // const products = await Product.find(find);
 
@@ -198,6 +214,8 @@ module.exports.createPost = async (req, res) => {
             const countProducts = await Product.countDocuments({});
             req.body.position = countProducts + 1;
         }
+
+        req.body.createdBy = res.locals.account.id;
 
         const newProduct = new Product(req.body);
         await newProduct.save();

@@ -13,6 +13,7 @@ const productScheme = new mongoose.Schema ({
     thumbnail: String,
     status: String,
     position: Number,
+    createdBy: String,
     deleted: {
         type: Boolean,
         default: false
