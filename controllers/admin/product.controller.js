@@ -72,6 +72,18 @@ module.exports.index = async (req, res) => {
         }
 
         item.createdAtFormat = moment(item.createdAt).format("DD/MM/YYYY HH:mm:ss");
+
+        if(item.updatedBy){
+            const accountUpdated = await Account.findOne({
+                _id: item.updatedBy
+            });
+            item.updatedByFullName = accountUpdated.fullName;
+        }
+        else{
+            item.updatedByFullName = "";
+        }
+
+        item.updatedAtFormat = moment(item.updatedAt).format("DD/MM/YYYY HH:mm:ss");
     }
 
     // const products = await Product.find(find);
@@ -276,6 +288,8 @@ module.exports.editPatch = async (req, res) => {
                 const countProducts = await Product.countDocuments({});
                 req.body.position = countProducts + 1;
             }
+
+            req.body.updatedBy = res.locals.account.id;
     
             await Product.updateOne({
                 _id: id,
