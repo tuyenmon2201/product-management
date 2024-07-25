@@ -165,7 +165,8 @@ module.exports.deleteItem = async (req, res) => {
         await Product.updateOne({
             _id: id
         }, {
-            deleted: true
+            deleted: true,
+            deletedBy: res.locals.account.id
         });
 
         req.flash('success', 'Delete item success');
