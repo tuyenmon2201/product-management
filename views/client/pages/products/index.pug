@@ -1,11 +1,4 @@
-//- doctype html
-//- html(lang="en")
-//-     head
-//-         meta(charset="UTF-8")
-//-         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-//-         title Danh sách sản phẩm
-//-     body 
-//-         h1 Danh sách sản phẩm
+
 
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
@@ -14,7 +7,7 @@ block main
     .container.mv-3 
         .row 
             .col-12 
-                +box-head("Danh sách sản phẩm")
+                +box-head(pageTitle)
 
         .row 
             each item in products 
@@ -24,7 +17,7 @@ block main
                             img(src=item.thumbnail, alt=item.title)
                         .inner-content 
                             h3.inner-title
-                                a(href=`/products/${item.slug}`) #{item.title}
+                                a(href=`/products/detail/${item.slug}`) #{item.title}
                             .inner-price-new #{item.priceNew}$
                             .inner-price-old #{item.price}$
                             .inner-discount -#{item.discountPercentage}%
