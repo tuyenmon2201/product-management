@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 // const { Schema } = mongoose;
 
-const accountScheme = new mongoose.Schema ({
+const accountSchema = new mongoose.Schema ({
     fullName: String,
     email: String,
     phone: String,
@@ -18,6 +18,6 @@ const accountScheme = new mongoose.Schema ({
     timestamps: true
 });
 
-const Account = mongoose.model("Account", accountScheme, "accounts");
+const Account = mongoose.model("Account", accountSchema, "accounts");
 
 module.exports = Account;
