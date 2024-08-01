@@ -15,6 +15,13 @@ module.exports.cartId = async (req, res, next) => {
             }
         );
     }
+    else{
+        const cart = await Cart.findOne({
+            _id: req.cookies.cartId
+        });
+
+        res.locals.cartTotal = cart.products.length || 0;
+    }
 
     next();
 }
