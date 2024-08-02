@@ -2,18 +2,36 @@ const Cart = require("../../models/cart.model");
 
 module.exports.cartId = async (req, res, next) => {
     if(!req.cookies.cartId){
-        const cart = new Cart();
-        await cart.save();
+        const cart = await Cart.findOne({
+            _id: req.cookies.cartId
+        });
 
-        const expires = 365 * 24 * 60 * 60 * 1000;
+        if(!cart){
+            const cart = new Cart();
+            await cart.save();
 
-        res.cookie(
-            "cartId", 
-            cart.id,
-            {
-                expires: new Date(Date.now() + expires)
-            }
-        );
+            const expires = 365 * 24 * 60 * 60 * 1000;
+
+            res.cookie(
+                "cartId", 
+                cart.id,
+                {
+                    expires: new Date(Date.now() + expires)
+                }
+            );
+        }
+        // const cart = new Cart();
+        // await cart.save();
+
+        // const expires = 365 * 24 * 60 * 60 * 1000;
+
+        // res.cookie(
+        //     "cartId", 
+        //     cart.id,
+        //     {
+        //         expires: new Date(Date.now() + expires)
+        //     }
+        // );
     }
     else{
         const cart = await Cart.findOne({
