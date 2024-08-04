@@ -1,6 +1,7 @@
 const md5 = require("md5");
 const generateHelper = require("../../helpers/generate.helper");
 const User = require("../../models/user.model");
+const ForgotPassword = require("../../models/forgot-password.model");
 
 module.exports.register = async (req, res) => {
     res.render("client/pages/user/register", {
@@ -76,4 +77,41 @@ module.exports.logout = async (req, res) => {
 
     res.clearCookie("tokenUser");
     res.redirect("/user/login");
+}
+
+module.exports.forgotPassword = async (req, res) => {
+    res.render("client/pages/user/forgot-password", {
+        pageTitle: "Lấy lại mật khẩu"
+    });
+}
+
+module.exports.forgotPasswordPost = async (req, res) => {
+    const email = req.body.email;
+
+    const user = await User.findOne({
+        email: email,
+        deleted: false
+    });
+
+    if(!user){
+        req.flash("error", "Email không tồn tại trong hệ thống");
+        res.redirect("back");
+        return;
+    }
+
+    const otp = generateHelper.generateRandomNumber(6);
+
+    // Save email, OTP in database
+    const forgotPasswordData = {
+        email: email,
+        otp: otp,
+        expireAt: Date.now() + 3 * 60 * 1000
+    }
+
+    const forgotPassword = new ForgotPassword(forgotPasswordData);
+    await forgotPassword.save();
+
+    // Send OTP through email to user
+
+    res.redirect(`/user/password/otp?email=${email}`);
 }
