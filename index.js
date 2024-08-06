@@ -45,6 +45,12 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 routeAdmin.index(app);
 routeClient.index(app);
 
+app.get("*", (req, res) => {
+    res.render("client/pages/errors/404", {
+        pageTitle: "404 Not Found"
+    });
+});
+
 // app.get("/", (req, res) => {
 // //   res.send("Trang chủ");
 //     res.render("client/pages/home/index");
