@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
 var path = require('path');
+const http = require('http');
+const { Server } = require("socket.io");
 
 const database = require("./config/database");
 database.connect();
@@ -16,6 +18,14 @@ const systemConfig = require("./config/system");
 
 const app = express(); // Khởi tạo ứng dụng web sử dụng express
 const port = process.env.PORT; // Cổng của website
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+
+io.on('connection', (socket) => {
+    console.log('a user connected', socket.id);
+});
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
@@ -60,6 +70,6 @@ app.get("*", (req, res) => {
 //     res.render("client/pages/products/index");
 // });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
