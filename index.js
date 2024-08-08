@@ -21,11 +21,7 @@ const port = process.env.PORT; // Cổng của website
 
 const server = http.createServer(app);
 const io = new Server(server);
-
-
-io.on('connection', (socket) => {
-    console.log('a user connected', socket.id);
-});
+global._io = io;
 
 // override with POST having ?_method=DELETE
 app.use(methodOverride('_method'));
