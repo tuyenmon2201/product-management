@@ -26,10 +26,10 @@ module.exports.index = async (req, res) => {
 
         // CLIENT_SEND_TYPING
         socket.on("CLIENT_SEND_TYPING", (type) => {
-            socket.broadcast.emit("CLIENT_RETURN_TYPING", {
+            socket.broadcast.emit("SERVER_RETURN_TYPING", {
                 userId: userId,
-                type: type,
-                fullName: fullName
+                fullName: fullName,
+                type: type
             });
         });
     });
