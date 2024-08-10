@@ -1,5 +1,6 @@
 const Chat = require("../../models/chat.model");
 const User = require("../../models/user.model");
+const streamUpload = require("../../helpers/streamUpload.helper");
 
 module.exports.index = async (req, res) => {
     const userId = res.locals.user.id;
@@ -13,6 +14,15 @@ module.exports.index = async (req, res) => {
                 content: data.content
             }
 
+            const linkImages = [];
+
+            for (const image of data.images) {
+                const result = await streamUpload(image);
+                linkImages.push(result.url);
+            }
+
+            chatData.images = linkImages;
+
             const chat = new Chat(chatData);
             await chat.save();
 
@@ -20,7 +30,8 @@ module.exports.index = async (req, res) => {
             _io.emit("SERVER_RETURN_MESSAGE", {
                 userId: userId,
                 content: data.content,
-                fullName: fullName
+                fullName: fullName,
+                images: linkImages
             });
         });
 
