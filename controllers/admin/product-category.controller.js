@@ -88,3 +88,28 @@ module.exports.editPatch = async (req, res) => {
 
     res.redirect(`back`);
 }
+
+module.exports.detail = async (req, res) => {
+
+    try {
+        const id = req.params.id;
+
+        const productCategory = await ProductCategory.findOne({
+            _id: id,
+            deleted: false
+        });
+
+        if(productCategory){
+            res.render("admin/pages/products-category/detail", {
+                pageTitle: "Chi tiết danh mục",
+                productCategory: productCategory
+            });
+        }
+        else{
+            res.redirect(`/${systemConfig.prefixAdmin}/products-category`);
+        }
+        
+    } catch (error) {
+        res.redirect(`/${systemConfig.prefixAdmin}/products-category`);
+    }
+}
