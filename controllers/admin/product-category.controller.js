@@ -135,3 +135,23 @@ module.exports.deleteCategory = async (req, res) => {
         res.send(`403`);
     }
 }
+
+module.exports.changeStatus = async (req, res) => {
+    if(res.locals.role.permission.includes("products-category_edit")){
+        const { id, statusChange } = req.params;
+        // console.log(req.params);
+        await ProductCategory.updateOne({
+            _id: id
+        }, {
+            status: statusChange
+        });
+
+        req.flash('success', 'Cập nhật trạng thái thành công');
+        res.json({
+            code: 200,
+        });
+    }
+    else{
+        res.send(`403`);
+    }
+}

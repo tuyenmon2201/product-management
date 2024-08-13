@@ -30,4 +30,6 @@ router.get("/detail/:id", controller.detail);
 
 router.patch("/delete/:id", controller.deleteCategory);
 
+router.patch("/change-status/:statusChange/:id", controller.changeStatus);
+
 module.exports = router;
