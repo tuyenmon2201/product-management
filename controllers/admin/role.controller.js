@@ -118,3 +118,25 @@ module.exports.detail = async (req, res) => {
         res.redirect(`/${systemConfig.prefixAdmin}/roles`);
     }
 }
+
+module.exports.deleteRole = async (req, res) => {
+    if(res.locals.role.permission.includes("roles_delete")){
+        const id = req.params.id;
+
+        await Role.updateOne({
+            _id: id
+        }, {
+            deleted: true,
+            deletedBy: res.locals.account.id
+        });
+
+        req.flash('success', 'Xóa nhóm quyền thành công');
+
+        res.json({
+            code: 200,
+        });
+    }
+    else{
+        res.send(`403`);
+    }
+}
