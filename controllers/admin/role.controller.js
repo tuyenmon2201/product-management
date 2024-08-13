@@ -91,3 +91,30 @@ module.exports.permissionsPatch = async (req, res) => {
         message: "Cập nhật thành công!"
     });
 };
+
+module.exports.detail = async (req, res) => {
+
+    try {
+        const id = req.params.id;
+
+        const role = await Role.findOne({
+            _id: id,
+            deleted: false
+        });
+
+        // console.log(product);
+
+        if(role){
+            res.render("admin/pages/roles/detail", {
+                pageTitle: "Chi tiết nhóm quyền",
+                role: role
+            });
+        }
+        else{
+            res.redirect(`/${systemConfig.prefixAdmin}/roles`);
+        }
+        
+    } catch (error) {
+        res.redirect(`/${systemConfig.prefixAdmin}/roles`);
+    }
+}
