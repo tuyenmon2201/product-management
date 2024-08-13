@@ -113,3 +113,25 @@ module.exports.detail = async (req, res) => {
         res.redirect(`/${systemConfig.prefixAdmin}/products-category`);
     }
 }
+
+module.exports.deleteCategory = async (req, res) => {
+    if(res.locals.role.permission.includes("products-category_delete")){
+        const id = req.params.id;
+
+        await ProductCategory.updateOne({
+            _id: id
+        }, {
+            deleted: true,
+            deletedBy: res.locals.account.id
+        });
+
+        req.flash('success', 'Xóa danh mục thành công!');
+
+        res.json({
+            code: 200,
+        });
+    }
+    else{
+        res.send(`403`);
+    }
+}
