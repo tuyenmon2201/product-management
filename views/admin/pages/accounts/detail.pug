@@ -1,0 +1,32 @@
+extends ../../layouts/default.pug
+
+block main
+    if (account.title)
+    h1(class="mb-4") #{account.title}
+
+    if (account.avatar)
+        div(class="mb-4")
+        img(
+            src=account.avatar
+            style="width: 100px"
+        )
+
+    if (account.fullName)
+        div(class="mb-4") Họ tên: <b>#{account.fullName}</b>
+
+    if (account.email)
+        div(class="mb-4") Email: <b>#{account.email}</b>
+
+    if (account.phone)
+        div(class="mb-4") Điện thoại: <b>#{account.phone}</b>
+
+    if (account.status)
+        div(class="mb-4")
+        span Trạng thái:
+        if (account.status === "active")
+            span(class="badge badge-success") Hoạt động
+        else
+            span(class="badge badge-danger") Dừng hoạt động
+
+    //- if (product.description)
+    //-     div(class="mb-4") !{product.description}

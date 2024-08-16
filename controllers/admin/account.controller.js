@@ -84,3 +84,30 @@ module.exports.editPatch = async (req, res) => {
     res.redirect("back");
 
 }
+
+module.exports.detail = async (req, res) => {
+
+    try {
+        const id = req.params.id;
+
+        const account = await Account.findOne({
+            _id: id,
+            deleted: false
+        });
+
+        // console.log(product);
+
+        if(account){
+            res.render("admin/pages/accounts/detail", {
+                pageTitle: "Chi tiết tài khoản admin",
+                account: account
+            });
+        }
+        else{
+            res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+        }
+        
+    } catch (error) {
+        res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+    }
+}
