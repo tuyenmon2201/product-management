@@ -45,3 +45,19 @@ if(listBtnRefuseFriend.length > 0){
     });
 }
 // End feature refuse add friend
+
+// Feature accept add friend
+const listBtnAcceptFriend = document.querySelectorAll("[btn-accept-friend]");
+if(listBtnAcceptFriend.length > 0){
+    listBtnAcceptFriend.forEach(button => {
+        button.addEventListener("click", () => {
+            // console.log(button);
+            
+            button.closest(".box-user").classList.add("accepted");
+            
+            const userIdB = button.getAttribute("btn-accept-friend");
+            socket.emit("CLIENT_ACCEPT_FRIEND", userIdB);
+        });
+    });
+}
+// End feature refuse add friend
