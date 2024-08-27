@@ -15,7 +15,9 @@ const userSchema = new mongoose.Schema ({
     deleted: {
         type: Boolean,
         default: false
-    }
+    },
+    acceptFriends: Array,
+    requestFriends: Array
 },  {
     timestamps: true
 });
