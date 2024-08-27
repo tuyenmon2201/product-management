@@ -40,6 +40,40 @@ module.exports = (req, res) => {
                 });
             }
         });
+
+        socket.on("CLIENT_CANCEL_FRIEND", async (userIdB) => {
+            // Remove id of A in acceptFriend of B
+            const existUserAInB = await User.findOne({
+                _id: userIdB,
+                acceptFriends: userIdA
+            });
+
+            if(existUserAInB){
+                await User.updateOne({
+                    _id: userIdB
+                }, {
+                    $pull: {
+                        acceptFriends: userIdA
+                    }
+                });
+            }
+
+            // Remove id of B in requestFriend of A
+            const existUserBInA = await User.findOne({
+                _id: userIdA,
+                requestFriends: userIdB
+            });
+
+            if(existUserBInA){
+                await User.updateOne({
+                    _id: userIdA
+                }, {
+                    $pull: {
+                        requestFriends: userIdB
+                    }
+                });
+            }
+        });
         
     });
 }
