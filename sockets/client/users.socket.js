@@ -82,6 +82,15 @@ module.exports = (req, res) => {
                     }
                 });
             }
+
+            const infoB = await User.findOne({
+                _id: userIdB
+            });
+
+            socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIEND", {
+                length: infoB.acceptFriends.length,
+                userId: userIdB
+            });
         });
 
         socket.on("CLIENT_REFUSE_FRIEND", async (userIdB) => {
