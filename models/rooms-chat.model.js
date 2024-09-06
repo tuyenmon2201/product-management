@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const roomChatSchema = new mongoose.Schema ({
     title: String,
     // avatar: String,
-    tyleRoom: String,
+    typeRoom: String,
     users: [
         {
             userId: String,

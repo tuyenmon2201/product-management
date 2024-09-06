@@ -1,5 +1,6 @@
 const streamUpload = require("../../helpers/streamUpload.helper");
 const User = require("../../models/user.model");
+const RoomChat = require("../../models/rooms-chat.model");
 
 module.exports = (req, res) => {
 
@@ -148,49 +149,71 @@ module.exports = (req, res) => {
         });
 
         socket.on("CLIENT_ACCEPT_FRIEND", async (userIdB) => {
-            // Remove id of B in acceptFriend of A
-            const existUserBInA = await User.findOne({
-                _id: userIdA,
-                acceptFriends: userIdB
-            });
-
-            if(existUserBInA){
-                await User.updateOne({
-                    _id: userIdA
-                }, {
-                    $push: {
-                        friendsList: {
+            try {
+                // Create room chat
+                const roomChat = new RoomChat({
+                    typeRoom: "friend",
+                    users: [
+                        {
+                            userId: userIdA,
+                            role: "superAdmin"
+                        },
+                        {
                             userId: userIdB,
-                            roomChatId: ""
+                            role: "superAdmin"
                         }
-                    },
-                    $pull: {
-                        acceptFriends: userIdB
-                    }
+                    ]
                 });
+
+                await roomChat.save();
+
+                // Remove id of B in acceptFriend of A
+                const existUserBInA = await User.findOne({
+                    _id: userIdA,
+                    acceptFriends: userIdB
+                });
+
+                if(existUserBInA){
+                    await User.updateOne({
+                        _id: userIdA
+                    }, {
+                        $push: {
+                            friendsList: {
+                                userId: userIdB,
+                                roomChatId: roomChat.id
+                            }
+                        },
+                        $pull: {
+                            acceptFriends: userIdB
+                        }
+                    });
+                }
+
+                // Remove id of A in requestFriend of B
+                const existUserAInB = await User.findOne({
+                    _id: userIdB,
+                    requestFriends: userIdA
+                });
+
+                if(existUserAInB){
+                    await User.updateOne({
+                        _id: userIdB
+                    }, {
+                        $push: {
+                            friendsList: {
+                                userId: userIdA,
+                                roomChatId: roomChat.id
+                            }
+                        },
+                        $pull: {
+                            requestFriends: userIdA
+                        }
+                    });
+                }
+            } catch (error) {
+                console.log(error);
             }
 
-            // Remove id of A in requestFriend of B
-            const existUserAInB = await User.findOne({
-                _id: userIdB,
-                requestFriends: userIdA
-            });
-
-            if(existUserAInB){
-                await User.updateOne({
-                    _id: userIdB
-                }, {
-                    $push: {
-                      friendsList: {
-                        userId: userIdA,
-                        roomChatId: ""
-                      }
-                    },
-                    $pull: {
-                        requestFriends: userIdA
-                    }
-                });
-            }
         });
         
     });
