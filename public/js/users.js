@@ -153,3 +153,15 @@ socket.on("SERVER_RETURN_ID_CANCEL_FRIEND", (data) => {
     }
 })
 // END SERVER_RETURN_ID_CANCEL_FRIEND
+
+// SERVER_RETURN_ID_ACCEPT_FRIEND
+socket.on("SERVER_RETURN_ID_ACCEPT_FRIEND", (data) => {
+    const dataUsersNotFriend = document.querySelector(`[data-users-not-friend="${data.userIdB}"]`);
+    if(dataUsersNotFriend){
+        const boxUserA = dataUsersNotFriend.querySelector(`[user-id="${data.userIdA}"]`);
+        if(boxUserA){
+            dataUsersNotFriend.removeChild(boxUserA);
+        }
+    }
+})
+// END SERVER_RETURN_ID_ACCEPT_FRIEND
