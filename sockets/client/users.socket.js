@@ -100,6 +100,12 @@ module.exports = (req, res) => {
                 length: infoB.acceptFriends.length,
                 userId: userIdB
             });
+
+            socket.broadcast.emit("SERVER_RETURN_ID_CANCEL_FRIEND", {
+                userIdA: userIdA,
+                userIdB: userIdB
+            });
+
         });
 
         socket.on("CLIENT_REFUSE_FRIEND", async (userIdB) => {
