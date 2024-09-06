@@ -1,0 +1,24 @@
+const mongoose = require("mongoose");
+// const { Schema } = mongoose;
+
+const roomChatSchema = new mongoose.Schema ({
+    title: String,
+    // avatar: String,
+    tyleRoom: String,
+    users: [
+        {
+            userId: String,
+            role: String,
+        }
+    ],
+    deleted: {
+        type: Boolean,
+        default: false
+    }
+},  {
+    timestamps: true
+});
+
+const RoomChat = mongoose.model("RoomChat", roomChatSchema, "rooms-chat");
+
+module.exports = RoomChat;
