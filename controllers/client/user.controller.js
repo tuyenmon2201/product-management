@@ -69,12 +69,30 @@ module.exports.loginPost = async (req, res) => {
     }
 
     res.cookie("tokenUser", user.tokenUser);
+
+    await User.updateOne({
+        email: req.body.email,
+        deleted: false
+    }, {
+        statusOnline: "online"
+    });
+
     req.flash("success", "Đăng nhập tài khoản thành công!");
 
     res.redirect("/");
 }
 
 module.exports.logout = async (req, res) => {
+
+    try {
+        await User.updateOne({
+            _id: res.locals.user.id
+        }, {
+            statusOnline: "offline"
+        });
+    } catch (error) {
+        console.log(error);
+    }
 
     res.clearCookie("tokenUser");
     res.redirect("/user/login");
