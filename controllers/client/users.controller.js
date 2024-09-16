@@ -78,7 +78,7 @@ module.exports.accept = async (req, res) => {
 module.exports.friends = async (req, res) => {
     usersSocket(req, res);
     
-    const userId = res.locals.user.id;
+    // const userId = res.locals.user.id;
 
     // $ne: not equal
 
@@ -93,7 +93,7 @@ module.exports.friends = async (req, res) => {
 
     users.forEach(user => {
         const infoUser = friendsList.find(friend => friend.userId == user.id);
-        users.roomChatId = infoUser.roomChatId;
+        user.roomChatId = infoUser.roomChatId;
     });
 
     res.render("client/pages/users/friends", {

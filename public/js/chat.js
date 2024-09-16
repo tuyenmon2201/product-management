@@ -1,6 +1,6 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
 
-var socket = io();
+// var socket = io();
 
 // Typing
 const inputChat = document.querySelector(".chat .inner-form input[name='content']");
@@ -56,7 +56,7 @@ if(formChat){
     formChat.addEventListener("submit", (event) => {
         event.preventDefault();
 
-        const content = event.target.content.value;
+        const content = event.target.content.value || "";
         const images = upload.cachedFileArray;
 
         if(content || images.length > 0){

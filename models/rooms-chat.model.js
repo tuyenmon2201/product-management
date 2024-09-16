@@ -8,7 +8,7 @@ const roomChatSchema = new mongoose.Schema ({
     users: [
         {
             userId: String,
-            role: String,
+            role: String
         }
     ],
     deleted: {
