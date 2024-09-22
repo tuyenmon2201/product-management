@@ -34,8 +34,8 @@ module.exports = (req, res) => {
             // Return message realtime for people
             _io.to(roomChatId).emit("SERVER_RETURN_MESSAGE", {
                 userId: userId,
-                content: data.content,
                 fullName: fullName,
+                content: data.content,
                 images: linkImages
             });
         });
