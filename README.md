@@ -103,47 +103,46 @@ npm install
 
 Create a .env file in the root directory and configure the following variables:
 
-PORT=3000
-MONGODB_URI=your_mongodb_atlas_connection_string
-SESSION_SECRET=your_secret_key
-SOCKET_IO_PORT=your_socket_io_port
+- PORT=3000
+- MONGODB_URI=your_mongodb_atlas_connection_string
+- SOCKET_IO_PORT=your_socket_io_port
 
 📌 **Start the Application**
 
 🔹 Development Mode
 
-npm run dev
+- npm run dev
 
 🔹 Production Mode
 
-npm start
+- npm start
 
 📌 **Access the Application**
 
-Open http://localhost:3000/ in your browser.
+- Open http://localhost:3000/ in your browser.
 
 🛠️ **Technologies Used**
 
-ExpressJS - Web framework for Node.js
+- ExpressJS - Web framework for Node.js
 
-MongoDB Atlas - Cloud database storage
+- MongoDB Atlas - Cloud database storage
 
-PUG - Template engine for UI rendering
+- PUG - Template engine for UI rendering
 
-Socket.IO - Real-time chat functionality
+- Socket.IO - Real-time chat functionality
 
-Mongoose - ODM for MongoDB
+- Mongoose - ODM for MongoDB
 
-Dotenv - Environment variable management
+- Dotenv - Environment variable management
 
 🤝 **Contributing**
 
-Fork the repository.
+1. Fork the repository.
 
-Create a new branch: git checkout -b feature-name
+2. Create a new branch: git checkout -b feature-name
 
-Commit your changes: git commit -m "Add some feature"
+3. Commit your changes: git commit -m "Add some feature"
 
-Push to the branch: git push origin feature-name
+4. Push to the branch: git push origin feature-name
 
-Submit a Pull Request.
+5. Submit a Pull Request.
