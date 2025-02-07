@@ -12,39 +12,39 @@ This project is a Product Management System built using Server-Side Rendering (S
 
 - Product List Page:
 
--  Search products.
+  - Search products.
 
--  Filter by status.
+  -  Filter by status.
 
--  Sort by position, price, and title.
+  -  Sort by position, price, and title.
 
--  Change the status of single or multiple products.
+  -  Change the status of single or multiple products.
 
--  Change product positions.
+  -  Change product positions.
 
--  Create, edit, and delete products.
+  -  Create, edit, and delete products.
 
--  Pagination.
+  -  Pagination.
 
 - Product Category Page:
 
--  Create, edit, and delete categories.
+  -  Create, edit, and delete categories.
 
 - Role Management Page:
 
--  Create, edit, and delete roles.
+  -  Create, edit, and delete roles.
 
 - Permission Management Page:
 
--  View, create, edit, and delete permissions (products, categories roles, etc.) for admins and authorized users.
+  -  View, create, edit, and delete permissions (products, categories roles, etc.) for admins and authorized users.
 
 - Admin Account Page:
 
--  Display, create, edit, and delete admin accounts.
+  -  Display, create, edit, and delete admin accounts.
 
 - General Settings:
 
--  Configure website name, phone, logo, and other settings.
+  -  Configure website name, phone, logo, and other settings.
 
 🔹 **Frontend Features**
 
@@ -52,31 +52,31 @@ This project is a Product Management System built using Server-Side Rendering (S
 
 - Product Page:
 
--  Show featured products and latest products.
+  -  Show featured products and latest products.
 
--  Filter products by category.
+  -  Filter products by category.
 
 - Cart Page:
 
--  Add products to the cart.
+  -  Add products to the cart.
 
--  Place orders.
+  -  Place orders.
 
--  Remove products from the cart.
+  -  Remove products from the cart.
 
 - Account Information Page:
 
--  Display user account details (name, email, etc.).
+  -  Display user account details (name, email, etc.).
 
 - Friend Management Page:
 
--  Show user list and friend list.
+  -  Show user list and friend list.
 
--  Manage sent and received friend invitations.
+  -  Manage sent and received friend invitations.
 
 - Chat Page:
 
--  One-on-one and group chat.
+  -  One-on-one and group chat.
 
 ## ⚙️ **Installation and Setup**
 
